@@ -1,0 +1,21 @@
+name: Create Release Branch and PR
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+    # - cron: '0 1 * * 4' # Every Thursday at 10:00 AM JST
+  workflow_dispatch:
+jobs:
+  create_release_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # with: backend
+      - uses: Get the current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Create and push release branch
+        run: |
+          git branch release/${{ steps.date.outputs.date }}
+          git push origin release/${{ steps.date.outputs.date }}
