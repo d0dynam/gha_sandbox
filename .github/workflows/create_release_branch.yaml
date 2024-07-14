@@ -12,10 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         # with: backend
-      - uses: Get the current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Get the current date
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
       - name: Create and push release branch
         run: |
-          git branch release/${{ steps.date.outputs.date }}
-          git push origin release/${{ steps.date.outputs.date }}
+          git branch release/${{ env.DATE }}
+          git push origin release/${{ env.DATE }}
